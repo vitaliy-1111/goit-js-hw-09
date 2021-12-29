@@ -20,8 +20,8 @@ function onFormSubmit(e) {
   }
   let delayTimeout = Number(delay); 
   for (let i = 0; i < amount; i++){
-    setTimeout(() => {
-      position += 1;
+  const idTimeout =  setTimeout(() => {
+    position += 1;
        createPromise(position, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
@@ -32,12 +32,12 @@ function onFormSubmit(e) {
         // console.log('promise wrong');
       });
       delay = Number(delay) + Number(step);
-      
+      clearTimeout(idTimeout);
     }, delayTimeout)
     delayTimeout = Number(delayTimeout) + Number(step);
+    
   }
-  refs.formButtonSubmit.setAttribute("disabled", "disabled");
-
+  position = 0;
   // let timerId = setTimeout(function tick() {
   //   createPromise(position, delay)
   //     .then(({ position, delay }) => {
