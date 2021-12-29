@@ -38,6 +38,9 @@ function onFormSubmit(e) {
     
   }
   position = 0;
+
+  //  ============ another variant =============
+
   // let timerId = setTimeout(function tick() {
   //   createPromise(position, delay)
   //     .then(({ position, delay }) => {
@@ -53,8 +56,10 @@ function onFormSubmit(e) {
   //     return;
   //   }
   //   timerId = setTimeout(tick, step);
-  //   position += 1;    
-  // }, delay);  
+  //   position += 1;
+  // }, delay);
+  // position = 1;
+  
 }
 
 function createPromise(position, delay) {
