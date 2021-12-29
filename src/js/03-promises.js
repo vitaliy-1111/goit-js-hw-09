@@ -3,11 +3,12 @@ import Notiflix from 'notiflix';
 
 const refs = {
   formEl: document.querySelector('form'),
+  formButtonSubmit: document.querySelector('button')
 }
 
 refs.formEl.addEventListener('submit', onFormSubmit);
 
-let position = 1;
+let position = 0;
 
 function onFormSubmit(e) {
   e.preventDefault();
@@ -17,22 +18,43 @@ function onFormSubmit(e) {
   if (amount <= 0) {
     return;
   }
-
-  let timerId = setTimeout(function tick() {
-    createPromise(position, delay)
+  let delayTimeout = Number(delay); 
+  for (let i = 0; i < amount; i++){
+    setTimeout(() => {
+      position += 1;
+       createPromise(position, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        // console.log('promise ok');
       })
       .catch(({ position, delay }) => {
         Notiflix.Notify.warning(`❌ Rejected promise ${position} in ${delay}ms`);
+        // console.log('promise wrong');
       });
-    delay = Number(delay) + Number(step);
-    if (Number(position) === Number(amount)) {
-      return;
-    }
-    timerId = setTimeout(tick, step);
-    position += 1;    
-  }, delay);  
+      delay = Number(delay) + Number(step);
+      
+    }, delayTimeout)
+    delayTimeout = Number(delayTimeout) + Number(step);
+  }
+  refs.formButtonSubmit.setAttribute("disabled", "disabled");
+
+  // let timerId = setTimeout(function tick() {
+  //   createPromise(position, delay)
+  //     .then(({ position, delay }) => {
+  //       Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  //       // console.log('promise ok');
+  //     })
+  //     .catch(({ position, delay }) => {
+  //       Notiflix.Notify.warning(`❌ Rejected promise ${position} in ${delay}ms`);
+  //       // console.log('promise wrong');
+  //     });
+  //   delay = Number(delay) + Number(step);
+  //   if (Number(position) === Number(amount)) {
+  //     return;
+  //   }
+  //   timerId = setTimeout(tick, step);
+  //   position += 1;    
+  // }, delay);  
 }
 
 function createPromise(position, delay) {
